@@ -1,6 +1,6 @@
 <template>
   <div id="app-base-socket-ipc">
-    <div class="one-block-1">
+    <!-- <div class="one-block-1">
       <span>
         1. 渲染进程与主进程IPC通信
       </span>
@@ -27,18 +27,21 @@
           </a-button>
         </a-input-search>
       </a-list>
-    </div>
+    </div> -->
     <div class="one-block-1">
       <span>
-        3. 长消息： 服务端持续向前端页面发消息
+        开始执行任务
       </span>
     </div>  
     <div class="one-block-2">
       <a-space>
-        <a-button @click="socketMsgStart">开始</a-button>
-        <a-button @click="socketMsgStop">结束</a-button>
-        结果：{{ socketMessageString }}
+        <a-button @click="openSoft">开始</a-button>
+        <!-- <a-button @click="socketMsgStop">结束</a-button> -->
       </a-space>
+      <p>
+        <a-divider>测试输出</a-divider>
+        {{ socketMessageString }}
+      </p>
     </div>
   </div>
 </template>
@@ -47,47 +50,21 @@ import { ipcApiRoute } from '@/api/main'
 export default {
   data() {
     return {
-      content: 'hello',
-      content2: 'hello world',
-      reply: '',
-      socketMessageString: ''
+      socketMessageString: '',
+      logicDetector:'.\\LogicDetector\\LogicDetector.exe'
     }
   },
   mounted () {
     this.init();
   },
   methods: {
-    init () {
-      const self = this;
-      // 避免重复监听，或者将 on 功能写到一个统一的地方，只加载一次
-      this.$ipc.removeAllListeners(ipcApiRoute.socketMessageStart);
-      this.$ipc.removeAllListeners(ipcApiRoute.socketMessageStop);
-
-      this.$ipc.on(ipcApiRoute.socketMessageStart, (event, result) => {
-        console.log('[ipcRenderer] [socketMsgStart] result:', result)
-        self.socketMessageString = result;
-      })
-      this.$ipc.on(ipcApiRoute.socketMessageStop, (event, result) => {
-        console.log('[ipcRenderer] [socketMsgStop] result:', result)
-        self.socketMessageString = result;
-      })
-    },
-    helloHandle(value) {
-      const self = this;
-      this.$ipcCall(ipcApiRoute.hello, value).then(r => {
-        self.$message.info(r);
-      })
-    },
-    executeJSHandle(value) {
-      this.$ipcCall(ipcApiRoute.executeJS, value).then(r => {
-        console.log(r);
-      })      
-    },
-    socketMsgStart() {
-      this.$ipc.send(ipcApiRoute.socketMessageStart, '时间')
-    },
-    socketMsgStop() {
-      this.$ipc.send(ipcApiRoute.socketMessageStop, '')
+    openSoft () {
+      const self = this;   
+      this.$ipcCall(ipcApiRoute.openSoftware, this.logicDetector).then(result => {
+        if (!result) {
+          self.$message.error('程序不存在');
+        }
+      })       
     },
   }
 }

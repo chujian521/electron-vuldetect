@@ -5,9 +5,9 @@
       class="layout-sider"
     >
       <a-menu theme="light" mode="inline" :default-selected-keys="['menu_100']">
-        <a-menu-item v-for="(menuInfo, subIndex) in menu" :key="subIndex">
+        <a-menu-item v-for="(menuInfo, subIndex) in showList" :key="subIndex" >
           <router-link :to="{ name: menuInfo.pageName, params: menuInfo.params}">
-            <span>{{ menuInfo.title }}</span>
+            <span >{{ menuInfo.title }}</span>
           </router-link>
         </a-menu-item>
       </a-menu>
@@ -28,76 +28,99 @@ export default {
           icon: 'profile',
           title: '文件',
           pageName: 'BaseFileIndex',
-          params: {}
+          params: {},
+          show: true
         },
         'menu_300' : {
           icon: 'profile',
           title: '通信',
           pageName: 'BaseSocketIndex',
-          params: {}
+          params: {},
+          show: true
         },
         'menu_301' : {
           icon: 'profile',
           title: '数据库',
           pageName: 'BaseDBIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_400' : {
           icon: 'profile',
           title: '视图',
           pageName: 'BaseWindowViewIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_401' : {
           icon: 'profile',
           title: '窗口',
           pageName: 'BaseWindowIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_405' : {
           icon: 'profile',
           title: '桌面通知',
           pageName: 'BaseNotificationIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_407' : {
           icon: 'profile',
           title: '电源监控',
           pageName: 'BasePowerMonitorIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_409' : {
           icon: 'profile',
           title: '屏幕信息',
           pageName: 'BaseScreenIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_411' : {
           icon: 'profile',
           title: '系统主题',
           pageName: 'BaseThemeIndex',
-          params: {}
+          params: {},
+          show: false
         },   
         'menu_412' : {
           icon: 'profile',
           title: '自动更新',
           pageName: 'BaseUpdaterIndex',
-          params: {}
+          params: {},
+          show: false
         },    
         'menu_500' : {
           icon: 'profile',
           title: '软件调用',
           pageName: 'BaseSoftwareIndex',
-          params: {}
+          params: {},
+          show: false
         },
         'menu_900' : {
           icon: 'profile',
           title: '测试',
           pageName: 'BaseTestApiIndex',
-          params: {}
+          params: {},
+          show: false
         }                                                 
       }
     };
+  },
+  computed: {
+    showList() {
+      let fdict = {};
+      for (var key in this.menu) {
+        if (this.menu[key].show) {
+          fdict[key] = this.menu[key]
+        }
+      }
+      return fdict
+    }
   },
   created () {
   },
@@ -110,6 +133,7 @@ export default {
       this.$router.push({ name: linkInfo.pageName, params: linkInfo.params})
     }
   }
+  
 };
 </script>
 <style lang="less" scoped>

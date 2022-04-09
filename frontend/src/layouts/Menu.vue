@@ -26,7 +26,7 @@ export default {
       menu: {
         'menu_100' : {
           icon: 'profile',
-          title: '文件',
+          title: '配置',
           pageName: 'BaseFileIndex',
           params: {},
           show: true

@@ -429,7 +429,24 @@ class ExampleController extends Controller {
     exec(cmdStr);
 
     return true;
-  }  
+  }
+  
+  writeToFile (args) {
+    const fileName = args.filename;
+    this.app.logger.info('Write to file: ', fileName);
+    if (!fileName) {
+      return false;
+    }
+    const data = args.data;
+    this.app.logger.info('Write data: ', data);
+    try{
+      fs.writeFileSync(fileName, data);
+    }catch(error) {
+      this.app.logger.error('Write error: ', error);
+      return false;
+    }
+    return true; 
+  }
 
   /**
    * 开机启动-开启

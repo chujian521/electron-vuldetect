@@ -10,110 +10,232 @@
     </div>
     <div class="one-block-1">
       <span>
-        1. 系统原生对话框
+        1. 目标站点信息
       </span>
     </div>  
+    <div class="one-block-2">
+      <a-input-group compact>
+        <a-input v-model="url" placeholder="URL" addon-before="网站入口" style="width: 450px" />
+        <a-button type="primary" @click="getURL">Submit</a-button>
+      </a-input-group>
+    </div>
+
     <div class="one-block-2">
       <a-space>
-        <a-button @click="messageShow('ipc')">消息提示(ipc)</a-button>
-        <a-button @click="messageShowConfirm('ipc')">消息提示与确认(ipc)</a-button>
+        <span>用户密码</span>
+        <a-switch default-checked @change="onChange" />
       </a-space>
-    </div>
-    <div class="one-block-1">
-      <span>
-        2. 选择保存目录
-      </span>
-    </div>  
-    <div class="one-block-2">
-      <a-row>
-        <a-col :span="12">
-          <a-input v-model="dir_path" :value="dir_path" addon-before="保存目录" />
-        </a-col>
-        <a-col :span="12">
-          <a-button @click="selectDir">
-            修改目录
+      
+      <a-form layout="inline" :form="form" @submit="handleSubmit">
+        <a-form-item :validate-status="userNameError() ? 'error' : ''" :help="userNameError() || ''">
+          <a-input
+            v-decorator="[
+              'userName',
+              { rules: [{ required: true, message: '请输入用户名' }] },
+            ]"
+            :disabled="noAuth"
+            placeholder="用户名"
+          >
+            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-item>
+        <a-form-item :validate-status="passwordError() ? 'error' : ''" :help="passwordError() || ''">
+          <a-input  
+            v-decorator="[
+              'password',
+              { rules: [{ required: true, message: '请输入密码' }] },
+            ]"
+            :disabled="noAuth"
+            type="password"
+            placeholder="密码"
+          >
+            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit" :disabled="noAuth||hasErrors(form.getFieldsError())">
+            提交
           </a-button>
-        </a-col>
-      </a-row>
-    </div>      
+        </a-form-item>
+      </a-form>
+    </div>
+
     <div class="one-block-1">
       <span>
-        4. 打开文件夹
+        2. 测试模式
       </span>
     </div>  
-    <div class="one-block-2">
-      <a-list :grid="{ gutter: 16, column: 4 }" :data-source="file_list">
-        <a-list-item slot="renderItem" slot-scope="item" @click="openDirectry(item.id)">
-          <a-card :title="item.content">
-            <a-button type="link">
-              打开
-            </a-button>
+    <div class="one-block-2" style="width: 800px">
+      <a-row :gutter="[0,16]">
+        <a-col :span="8">
+          <a-card title="短信相关漏洞" style="width: 250px; height: 300px">
+            <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="smsAllCheck" />
+            <a-checkbox-group v-model="sms_state" @change="onChange" >
+              <a-row v-for="value in smsVul" :key="value">
+                <a-col :span="12">
+                  <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
+                </a-col>
+              </a-row>
+            </a-checkbox-group>
           </a-card>
-        </a-list-item>
-      </a-list>
+        </a-col>
+
+        <a-col :span="8">
+          <a-card title="验证码相关漏洞" style="width: 250px; height: 300px">
+            <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="capAllCheck" />
+            <a-checkbox-group v-model="cap_state" @change="onChange" >
+              <a-row v-for="value in captchaVul" :key="value">
+                <a-col :span="12">
+                  <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
+                </a-col>
+              </a-row>
+            </a-checkbox-group>
+          </a-card>
+        </a-col>
+
+        <a-col :span="8">
+          <a-card title="其他漏洞" style="width: 250px; height: 300px">
+            <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="otherAllCheck" />
+            <a-checkbox-group v-model="other_state" @change="onChange" >
+              <a-row v-for="value in otherVul" :key="value">
+                <a-col :span="12">
+                  <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
+                </a-col>
+              </a-row>
+            </a-checkbox-group>
+          </a-card>
+        </a-col>
+
+      </a-row>  
     </div>
-    <div class="footer">
-    </div>
+
+    <div class="one-block-1">
+      <span>
+        3. 保存配置
+      </span>
+    </div>  
+
+    <div class="one-block-2">
+      <a-button type="primary" icon="save" @click="saveConfig">
+        保存配置
+      </a-button>
+    </div> 
   </div>
 </template>
 <script>
-import { ipcApiRoute } from '@/api/main'
 
-const fileList = [
-  {
-    content: '【下载】目录',
-    id: 'downloads'
-  },
-  {
-    content: '【图片】目录',
-    id: 'pictures'
-  },
-  {
-    content: '【文档】目录',
-    id: 'documents'
-  },
-  {
-    content: '【音乐】目录',
-    id: 'music'
-  }
-];
+import { ipcApiRoute } from '@/api/main'
+import { vulOptions } from '@/utils/vulConfig'
+const fs = require('fs');
+
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
+
+const smsVul = [
+  '短信轰炸', '短信验证码重复利用', '短信验证码未绑定',
+  '短信验证码返回前端', '短信内容可控', '短信验证码可绕过',
+  '短信验证码可爆破'
+]
+
+const captchaVul = [
+  '图形验证码返回前端', '验证码过于简单', '验证码长度可控',
+  '验证码可识别', '验证码重复利用', '邮件验证码安全',
+  '无验证码', '图形验证码可绕过', '前端可控验证码生成'
+]
+
+const otherVul = [
+  '登录绕过', '密码重置无需原密码', '会话令牌写入URL',
+  '任意文件下载'
+]
+
 
 export default {
   data() {
     return {
-      file_list: fileList,
       image_info: [],
-      num: 0,
-			dir_path: "D:\\www\\ee",
+      hasErrors,
+      form: this.$form.createForm(this, { name: 'horizontal_login' }),
+      url: "",
+      noAuth: false,
+      target_info: {
+        "url": "",
+        "username": "",
+        "password": "",
+        'modules': [],
+      },
+      smsVul,
+      captchaVul,
+      otherVul,
+      sms_state: smsVul,
+      cap_state: captchaVul,
+      other_state: otherVul,
     };
   },
   methods: {
-    openDirectry (id) {
-      this.$ipcCall(ipcApiRoute.openDirectory, {id: id}).then(res => {
-        //console.log('res:', res)
-      })      
+    // Only show error after a field is touched.
+    userNameError() {
+      const { getFieldError, isFieldTouched } = this.form;
+      return (!this.noAuth) && isFieldTouched('userName') && getFieldError('userName');
     },
-    selectDir() {
-      const self = this;
-      self.$ipcCall(ipcApiRoute.selectFolder, '').then(r => {
-        self.dir_path = r;
-        self.$message.info(r);
-      })      
+    // Only show error after a field is touched.
+    passwordError() {
+      const { getFieldError, isFieldTouched } = this.form;
+      return (!this.noAuth) && isFieldTouched('password') && getFieldError('password');
     },
-		messageShow(type) {
-      const self = this;
-      console.log('[messageShow] type:', type)
-      this.$ipcCall(ipcApiRoute.messageShow, '').then(r => {
-        self.$message.info(r);
-      })
-    },    
-    messageShowConfirm(type) {
-      const self = this;
-      console.log('[messageShowConfirm] type:', type)
-      this.$ipcCall(ipcApiRoute.messageShowConfirm, '').then(r => {
-        self.$message.info(r);
-      })
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+          this.target_info.username = values.userName;
+          this.target_info.password = values.password;
+        }
+      });
     },
+    onChange(checked) {
+      console.log(`a-switch to ${checked}`);
+      this.noAuth = !checked;
+    },
+    getURL(){
+      this.target_info.url = this.url;
+    },
+    smsAllCheck(checked) {
+      this.sms_state = checked? smsVul: [];
+    },
+    capAllCheck(checked) {
+      this.cap_state = checked? captchaVul: [];
+    },
+    otherAllCheck(checked) {
+      this.other_state = checked? otherVul: [];
+    },
+    saveConfig() {
+      this.target_info.url = this.url;
+      for (const v of this.sms_state) {
+        for (const key of vulOptions[v])
+          this.target_info.modules.push(key);
+      }
+      for (const v of this.cap_state) {
+        for (const key of vulOptions[v])
+          this.target_info.modules.push(key);
+      }
+      for (const v of this.other_state) {
+        for (const key of vulOptions[v])
+          this.target_info.modules.push(key);
+      }
+      // console.log("Save config: ", JSON.stringify(this.target_info));
+      const data = JSON.stringify(this.target_info);
+      const args = {
+        filename: '.\\LogicDetector\\options.json',
+        data: data,
+      };
+      this.$ipcCall(ipcApiRoute.writeToFile, args).then(res=>{
+        if (res) {
+          console.log("write success.")
+        }
+      });
+      
+    }
   }
 };
 </script>

@@ -14,16 +14,26 @@
       </span>
     </div>  
     <div class="one-block-2">
-      <a-input-group compact="true" >
-        <a-input v-model="url" placeholder="URL" addon-before="网站入口" style="width: 460px"/>
-        <a-button type="primary" @click="getURL">提交</a-button>
-      </a-input-group>
+      <a-space style="margin: 5px">
+        <span>网站入口</span>  
+      </a-space>
+      <div />
+      <a-input v-model="url" placeholder="URL" style="width: 460px">
+        <a-select slot="addonBefore" v-model="schema" default-value="https://" style="width: 80px">
+          <a-select-option value="http://">
+            Http://
+          </a-select-option>
+          <a-select-option value="https://">
+            Https://
+          </a-select-option>
+        </a-select>
+      </a-input>  
     </div>
 
     <div class="one-block-2" style="width: 600px">
-      <a-space>
+      <a-space style="margin: 5px">
         <span>用户密码</span>
-        <a-switch default-checked @change="onChange" />
+        <a-switch default-checked @change="authChange" />
       </a-space>
       
       <a-form layout="inline" :form="form" @submit="handleSubmit">
@@ -70,7 +80,7 @@
         <a-col :span="8">
           <a-card title="短信相关漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="smsAllCheck" />
-            <a-checkbox-group v-model="sms_state" @change="onChange" >
+            <a-checkbox-group v-model="sms_state" >
               <a-row v-for="value in smsVul" :key="value">
                 <a-col :span="12">
                   <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
@@ -83,7 +93,7 @@
         <a-col :span="8">
           <a-card title="验证码相关漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="capAllCheck" />
-            <a-checkbox-group v-model="cap_state" @change="onChange" >
+            <a-checkbox-group v-model="cap_state" >
               <a-row v-for="value in captchaVul" :key="value">
                 <a-col :span="12">
                   <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
@@ -96,7 +106,7 @@
         <a-col :span="8">
           <a-card title="其他漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="otherAllCheck" />
-            <a-checkbox-group v-model="other_state" @change="onChange" >
+            <a-checkbox-group v-model="other_state" >
               <a-row v-for="value in otherVul" :key="value">
                 <a-col :span="12">
                   <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
@@ -149,6 +159,7 @@ const otherVul = [
   '任意文件下载'
 ]
 
+const httpRegx = new RegExp('^https?:\\/\\/.*$', 'i');
 
 export default {
   data() {
@@ -157,6 +168,7 @@ export default {
       hasErrors,
       form: this.$form.createForm(this, { name: 'horizontal_login' }),
       url: "",
+      schema: "https://",
       noAuth: false,
       target_info: {
         "url": "",
@@ -193,12 +205,9 @@ export default {
         }
       });
     },
-    onChange(checked) {
+    authChange(checked) {
       console.log(`a-switch to ${checked}`);
       this.noAuth = !checked;
-    },
-    getURL(){
-      this.target_info.url = this.url;
     },
     smsAllCheck(checked) {
       this.sms_state = checked? smsVul: [];
@@ -210,7 +219,13 @@ export default {
       this.other_state = checked? otherVul: [];
     },
     saveConfig() {
-      this.target_info.url = this.url;
+      if (this.url=='') {
+        this.$message.error('请输入目标网址');
+        return;
+      }
+
+      this.target_info.url = httpRegx.test(this.url)? this.url : this.schema+this.url;
+      console.log('Save url: ,', this.target_info.url);
       this.target_info.modules = [];
       for (const v of this.sms_state) {
         for (const key of vulOptions[v])
@@ -232,7 +247,10 @@ export default {
       };
       this.$ipcCall(ipcApiRoute.writeToFile, args).then(res=>{
         if (res) {
-          console.log("write success.")
+          console.log("write success.");
+          this.$message.success('配置已保存');
+        } else {
+          this.$message.error('配置保存失败');
         }
       });
       

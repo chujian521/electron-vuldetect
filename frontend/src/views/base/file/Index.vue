@@ -23,7 +23,7 @@
     <div class="one-block-2" style="width: 600px">
       <a-space>
         <span>用户密码</span>
-        <a-switch default-checked @change="onChange" />
+        <a-switch default-checked @change="authChange" />
       </a-space>
       
       <a-form layout="inline" :form="form" @submit="handleSubmit">
@@ -70,7 +70,7 @@
         <a-col :span="8">
           <a-card title="短信相关漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="smsAllCheck" />
-            <a-checkbox-group v-model="sms_state" @change="onChange" >
+            <a-checkbox-group v-model="sms_state" >
               <a-row v-for="value in smsVul" :key="value">
                 <a-col :span="12">
                   <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
@@ -83,7 +83,7 @@
         <a-col :span="8">
           <a-card title="验证码相关漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="capAllCheck" />
-            <a-checkbox-group v-model="cap_state" @change="onChange" >
+            <a-checkbox-group v-model="cap_state" >
               <a-row v-for="value in captchaVul" :key="value">
                 <a-col :span="12">
                   <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
@@ -96,7 +96,7 @@
         <a-col :span="8">
           <a-card title="其他漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="otherAllCheck" />
-            <a-checkbox-group v-model="other_state" @change="onChange" >
+            <a-checkbox-group v-model="other_state" >
               <a-row v-for="value in otherVul" :key="value">
                 <a-col :span="12">
                   <a-checkbox :value="value" style="width: 200px">{{ value }}</a-checkbox>
@@ -193,7 +193,7 @@ export default {
         }
       });
     },
-    onChange(checked) {
+    authChange(checked) {
       console.log(`a-switch to ${checked}`);
       this.noAuth = !checked;
     },

@@ -3,6 +3,7 @@
     <a-layout-sider
       theme="light"
       class="layout-sider"
+      width="120"
     >
       <a-menu theme="light" mode="inline" :default-selected-keys="['menu_100']">
         <a-menu-item v-for="(menuInfo, subIndex) in showList" :key="subIndex" >
@@ -14,7 +15,10 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-content>
-        <router-view />
+        <keep-alive>
+          <router-view />
+        </keep-alive>
+        
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -33,7 +37,7 @@ export default {
         },
         'menu_300' : {
           icon: 'profile',
-          title: '通信',
+          title: '执行',
           pageName: 'BaseSocketIndex',
           params: {},
           show: true

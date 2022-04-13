@@ -14,13 +14,13 @@
       </span>
     </div>  
     <div class="one-block-2">
-      <a-input-group compact>
-        <a-input v-model="url" placeholder="URL" addon-before="网站入口" style="width: 450px" />
-        <a-button type="primary" @click="getURL">Submit</a-button>
+      <a-input-group compact="true" >
+        <a-input v-model="url" placeholder="URL" addon-before="网站入口" style="width: 460px"/>
+        <a-button type="primary" @click="getURL">提交</a-button>
       </a-input-group>
     </div>
 
-    <div class="one-block-2">
+    <div class="one-block-2" style="width: 600px">
       <a-space>
         <span>用户密码</span>
         <a-switch default-checked @change="onChange" />
@@ -65,10 +65,10 @@
         2. 测试模式
       </span>
     </div>  
-    <div class="one-block-2" style="width: 800px">
+    <div class="one-block-2" style="width: 720px">
       <a-row :gutter="[0,16]">
         <a-col :span="8">
-          <a-card title="短信相关漏洞" style="width: 250px; height: 300px">
+          <a-card title="短信相关漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="smsAllCheck" />
             <a-checkbox-group v-model="sms_state" @change="onChange" >
               <a-row v-for="value in smsVul" :key="value">
@@ -81,7 +81,7 @@
         </a-col>
 
         <a-col :span="8">
-          <a-card title="验证码相关漏洞" style="width: 250px; height: 300px">
+          <a-card title="验证码相关漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="capAllCheck" />
             <a-checkbox-group v-model="cap_state" @change="onChange" >
               <a-row v-for="value in captchaVul" :key="value">
@@ -94,7 +94,7 @@
         </a-col>
 
         <a-col :span="8">
-          <a-card title="其他漏洞" style="width: 250px; height: 300px">
+          <a-card title="其他漏洞" style="width: 225px; height: 300px">
             <a-switch slot="extra" checked-children="全选" un-checked-children="否" default-checked style="width: 57px" @change="otherAllCheck" />
             <a-checkbox-group v-model="other_state" @change="onChange" >
               <a-row v-for="value in otherVul" :key="value">
@@ -211,6 +211,7 @@ export default {
     },
     saveConfig() {
       this.target_info.url = this.url;
+      this.target_info.modules = [];
       for (const v of this.sms_state) {
         for (const key of vulOptions[v])
           this.target_info.modules.push(key);

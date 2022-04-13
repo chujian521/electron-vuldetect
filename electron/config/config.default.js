@@ -102,7 +102,7 @@ module.exports = (appInfo) => {
 
   /* 托盘 (可选)  */
   config.tray = {
-    title: 'EE程序', // 托盘显示标题
+    title: 'Vuldetect', // 托盘显示标题
     icon: '/public/images/tray_logo.png' // 托盘图标
   }
 

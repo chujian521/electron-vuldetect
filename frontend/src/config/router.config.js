@@ -26,7 +26,10 @@ export const constantRouterMap = [
           {
             path: '/base/file/index',
             name: 'BaseFileIndex',
-            component: () => import('@/views/base/file/Index')
+            component: () => import('@/views/base/file/Index'),
+            meta:{
+              keepAlive: true
+            }
           },
           {
             path: '/base/socket/index',

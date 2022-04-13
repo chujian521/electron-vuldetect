@@ -8,8 +8,8 @@ const { exec } = require('child_process');
 const Controller = require('ee-core').Controller;
 const Utils = require('ee-core').Utils;
 const electronApp = require('electron').app;
-const {dialog, webContents, shell, BrowserWindow, BrowserView, 
-  Notification, powerMonitor, screen, nativeTheme} = require('electron');
+const { dialog, webContents, shell, BrowserWindow, BrowserView,
+  Notification, powerMonitor, screen, nativeTheme } = require('electron');
 const autoLaunchManager = require('../library/autoLaunch');
 
 let myTimer = null;
@@ -35,7 +35,7 @@ class ExampleController extends Controller {
   /**
    * test
    */
-  async test () {
+  async test() {
     const result = await this.service.example.test('electron');
 
     let tmpDir = Utils.getLogDir();
@@ -46,7 +46,7 @@ class ExampleController extends Controller {
 
   /**
    * json数据库操作
-   */   
+   */
   async dbOperation(args) {
     const { service } = this;
     const paramsObj = args;
@@ -56,18 +56,18 @@ class ExampleController extends Controller {
       result: null,
       all_list: []
     };
-    
+
     switch (paramsObj.action) {
-      case 'add' :
+      case 'add':
         data.result = await service.storage.addTestData(paramsObj.info);;
         break;
-      case 'del' :
+      case 'del':
         data.result = await service.storage.delTestData(paramsObj.delete_name);;
         break;
-      case 'update' :
+      case 'update':
         data.result = await service.storage.updateTestData(paramsObj.update_name, paramsObj.update_age);
         break;
-      case 'get' :
+      case 'get':
         data.result = await service.storage.getTestData(paramsObj.search_age);
         break;
     }
@@ -80,7 +80,7 @@ class ExampleController extends Controller {
   /**
    * hello
    */
-  hello (args) {
+  hello(args) {
     let newMsg = args + " +1";
     let content = '';
     content = '收到：' + args + '，返回：' + newMsg;
@@ -91,21 +91,21 @@ class ExampleController extends Controller {
   /**
    * 消息提示对话框
    */
-  messageShow () {
+  messageShow() {
     dialog.showMessageBoxSync({
       type: 'info', // "none", "info", "error", "question" 或者 "warning"
       title: '自定义标题-message',
       message: '自定义消息内容',
       detail: '其它的额外信息'
     })
-  
+
     return '打开了消息框';
   }
 
   /**
    * 消息提示与确认对话框
    */
-  messageShowConfirm () {
+  messageShowConfirm() {
     const res = dialog.showMessageBoxSync({
       type: 'info',
       title: '自定义标题-message',
@@ -116,14 +116,14 @@ class ExampleController extends Controller {
       buttons: ['确认', '取消'], // 按钮及索引
     })
     let data = (res === 0) ? '点击确认按钮' : '点击取消按钮';
-  
+
     return data;
   }
 
   /**
    * 选择目录
    */
-  selectFolder () {
+  selectFolder() {
     const filePaths = dialog.showOpenDialogSync({
       properties: ['openDirectory', 'createDirectory']
     });
@@ -133,12 +133,12 @@ class ExampleController extends Controller {
     }
 
     return filePaths[0];
-  } 
+  }
 
   /**
    * 打开目录
    */
-  openDirectory (args) {
+  openDirectory(args) {
     if (!args.id) {
       return false;
     }
@@ -150,13 +150,13 @@ class ExampleController extends Controller {
   /**
    * 长消息 - 开始
    */
-  socketMessageStart (args, event) {
+  socketMessageStart(args, event) {
     // 每隔1秒，向前端页面发送消息
     // 用定时器模拟
-    
+
     // 前端ipc频道 channel
     const channel = 'controller.example.socketMessageStart';
-    myTimer = setInterval(function(e, c, msg) {
+    myTimer = setInterval(function (e, c, msg) {
       let timeNow = Date.now();
       let data = msg + ':' + timeNow;
       e.reply(`${c}`, data)
@@ -168,7 +168,7 @@ class ExampleController extends Controller {
   /**
    * 长消息 - 停止
    */
-  socketMessageStop () {
+  socketMessageStop() {
     clearInterval(myTimer);
     return '停止了'
   }
@@ -176,7 +176,7 @@ class ExampleController extends Controller {
   /**
    * 执行js语句
    */
-  executeJS (args) {
+  executeJS(args) {
     let jscode = `(()=>{alert('${args}');return 'fromJs:${args}';})()`;
     return webContents.fromId(1).executeJavaScript(jscode);
   }
@@ -184,7 +184,7 @@ class ExampleController extends Controller {
   /**
    * 加载视图内容
    */
-  loadViewContent (args) {
+  loadViewContent(args) {
     let content = null;
     if (args.type == 'html') {
       content = path.join('file://', electronApp.getAppPath(), args.content)
@@ -207,15 +207,15 @@ class ExampleController extends Controller {
   /**
    * 移除视图内容
    */
-  removeViewContent () {
+  removeViewContent() {
     this.app.electron.mainWindow.removeBrowserView(browserViewObj);
     return true
-  }  
+  }
 
   /**
    * 打开新窗口
    */
-  createWindow (args) {
+  createWindow(args) {
     let content = null;
     if (args.type == 'html') {
       content = path.join('file://', electronApp.getAppPath(), args.content)
@@ -226,14 +226,14 @@ class ExampleController extends Controller {
     let winObj = new BrowserWindow({
       x: 10,
       y: 10,
-      width: 980, 
-      height: 650 
+      width: 980,
+      height: 650
     })
     winObj.loadURL(content);
 
     return winObj.id
   }
-  
+
   /**
    * 加载扩展程序
    */
@@ -258,7 +258,7 @@ class ExampleController extends Controller {
   /**
    * 创建系统通知
    */
-  sendNotification (arg, event) {
+  sendNotification(arg, event) {
     const channel = 'controller.example.sendNotification';
     if (!Notification.isSupported()) {
       return '当前系统不支持通知';
@@ -303,12 +303,12 @@ class ExampleController extends Controller {
     notificationObj.show();
 
     return true
-  }  
+  }
 
   /**
    * 电源监控
    */
-  initPowerMonitor (arg, event) {
+  initPowerMonitor(arg, event) {
     const channel = 'controller.example.initPowerMonitor';
     powerMonitor.on('on-ac', (e) => {
       let data = {
@@ -343,12 +343,12 @@ class ExampleController extends Controller {
     });
 
     return true
-  }  
+  }
 
   /**
    * 获取屏幕信息
    */
-  getScreen (arg) {
+  getScreen(arg) {
     let data = [];
     let res = {};
     if (arg == 0) {
@@ -363,7 +363,7 @@ class ExampleController extends Controller {
           desc: res.y
         },
       ]
-      
+
       return data;
     }
     if (arg == 1) {
@@ -386,7 +386,7 @@ class ExampleController extends Controller {
       },
       {
         title: '色深',
-        desc: res. colorDepth
+        desc: res.colorDepth
       },
       {
         title: '色域',
@@ -407,12 +407,12 @@ class ExampleController extends Controller {
     ]
 
     return data;
-  }  
+  }
 
   /**
    * 调用其它程序（exe、bash等可执行程序）
    */
-  openSoftware (softName) {
+  openSoftware(softName) {
     if (!softName) {
       return false;
     }
@@ -430,28 +430,29 @@ class ExampleController extends Controller {
 
     return true;
   }
-  
-  writeToFile (args) {
+
+  writeToFile(args) {
     const fileName = args.filename;
-    this.app.logger.info('Write to file: ', fileName);
     if (!fileName) {
       return false;
     }
+    let filePath = path.join(Utils.getExtraResourcesDir(), fileName);
+    this.app.logger.info('Write to file: ', filePath);
     const data = args.data;
     this.app.logger.info('Write data: ', data);
-    try{
-      fs.writeFileSync(fileName, data);
-    }catch(error) {
+    try {
+      fs.writeFileSync(filePath, data);
+    } catch (error) {
       this.app.logger.error('Write error: ', error);
       return false;
     }
-    return true; 
+    return true;
   }
 
   /**
    * 开机启动-开启
    */
-  autoLaunch (type) {
+  autoLaunch(type) {
     console.log('type:', type);
     let res = {
       type: type,
@@ -473,7 +474,7 @@ class ExampleController extends Controller {
   /**
    * 获取系统主题
    */
-  getTheme () {
+  getTheme() {
     let theme = 'system';
     if (nativeTheme.shouldUseHighContrastColors) {
       theme = 'light';
@@ -487,7 +488,7 @@ class ExampleController extends Controller {
   /**
    * 设置系统主题
    */
-  setTheme (args) {
+  setTheme(args) {
 
     // TODO 好像没有什么明显效果
     nativeTheme.themeSource = args;
@@ -499,12 +500,12 @@ class ExampleController extends Controller {
   /**
    * 检查是否有新版本
    */
-  checkForUpdater () {
+  checkForUpdater() {
     const config = this.app.config.autoUpdate;
-    if ( (is.windows() && config.windows) || (is.macOS() && config.macOS) || (is.linux() && config.linux) ) {
+    if ((is.windows() && config.windows) || (is.macOS() && config.macOS) || (is.linux() && config.linux)) {
       const autoUpdater = require('../library/autoUpdater');
       autoUpdater.checkUpdate();
-    }    
+    }
 
     return;
   }
@@ -512,18 +513,18 @@ class ExampleController extends Controller {
   /**
    * 下载新版本
    */
-  downloadApp () {
+  downloadApp() {
     const config = this.app.config.autoUpdate;
-    if ( (is.windows() && config.windows) || (is.macOS() && config.macOS) || (is.linux() && config.linux) ) {
+    if ((is.windows() && config.windows) || (is.macOS() && config.macOS) || (is.linux() && config.linux)) {
       const autoUpdater = require('../library/autoUpdater');
       autoUpdater.download();
-    }  
+    }
     return;
   }
 
   /**
    * 上传文件
-   */  
+   */
   async uploadFile() {
     // const self = this;
     // const { ctx, service } = this;

@@ -11,6 +11,8 @@ class Main extends Appliaction {
    * core app have been loaded
    */
   async ready () {
+    const { Menu } = require('electron');
+    Menu.setApplicationMenu(null);
     // do some things
   }
 

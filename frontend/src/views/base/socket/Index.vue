@@ -35,7 +35,7 @@
     </div>  
     <div class="one-block-2">
       <a-space>
-        <a-button @click="openSoft">开始</a-button>
+        <a-button type="primary" :icon="isRunning? 'sync':'caret-right'" @click="openSoft">开始</a-button>
         <!-- <a-button @click="socketMsgStop">结束</a-button> -->
       </a-space>
       <p>
@@ -50,6 +50,7 @@ import { ipcApiRoute } from '@/api/main'
 export default {
   data() {
     return {
+      isRunning: false,
       socketMessageString: '',
       logicDetector:'.\\LogicDetector\\LogicDetector.exe'
     }
@@ -58,12 +59,19 @@ export default {
     this.init();
   },
   methods: {
+    startRun() {
+      if (!this.isRunning) {
+        this.isRunning = true;
+        this.openSoft();
+      }
+    },
     openSoft () {
       const self = this;   
       this.$ipcCall(ipcApiRoute.openSoftware, this.logicDetector).then(result => {
         if (!result) {
           self.$message.error('程序不存在');
         }
+        this.isRunning = false;
       })       
     },
   }

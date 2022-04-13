@@ -16,6 +16,18 @@ let myTimer = null;
 let browserViewObj = null;
 let notificationObj = null;
 
+function replace(str, substr, newstr) {
+  var p = -1; // 字符出现位置
+  var s = 0; // 下一次起始位置
+
+  while((p = str.indexOf(substr, s)) > -1) {
+    s = p + newstr.length; // 位置 + 值的长度
+    str = str.replace(substr, newstr);
+  }
+
+  return str;
+}
+
 /**
  * 示例控制器
  * @class
@@ -429,6 +441,33 @@ class ExampleController extends Controller {
     exec(cmdStr);
 
     return true;
+  }
+
+  // 列出报告
+  listReports(dirPath) {
+    let dirPath_ = path.join(Utils.getExtraResourcesDir(), dirPath);
+    if (!dirPath_) {
+      return nil;
+    }
+
+    let reportsList = fs.readdirSync(dirPath_);
+    this.app.logger.info('[listReports] reportsList:', reportsList);
+    var res = new Array()
+    for(const i of reportsList){
+      var tmp = i.split("_",2)
+      var url = tmp[0]
+      var date = tmp[1].split(".",1)[0]
+      url = replace(url,",",":")
+      url = replace(url,";","/")
+      var out={
+        "url": url,
+        "reportName": path.join(dirPath_,i),
+        "date": date
+      }
+      res.push(out)
+    }
+    this.app.logger.info('[listReports] res: ',res)
+    return res;
   }
 
   writeToFile(args) {

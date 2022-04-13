@@ -26,6 +26,7 @@ const ipcApiRoute = {
   uploadFile: 'controller.example.uploadFile',
   writeToFile: 'controller.example.writeToFile',
   listReports: 'controller.example.listReports',
+  openFile: 'controller.example.openFile',
 }
 
 const specialIpcRoute = {

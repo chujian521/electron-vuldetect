@@ -51,10 +51,10 @@ export default {
         },
         'menu_400' : {
           icon: 'profile',
-          title: '视图',
+          title: '报告',
           pageName: 'BaseWindowViewIndex',
           params: {},
-          show: false
+          show: true
         },
         'menu_401' : {
           icon: 'profile',

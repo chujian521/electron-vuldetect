@@ -1,13 +1,6 @@
 <template>
   <div id="app-base-file">
-    <div class="one-block-2">
-      <a-list v-if="image_info.length !== 0" size="small" bordered :data-source="image_info">
-        <a-list-item slot="renderItem" slot-scope="item" style="text-align:left;">
-          {{ item.id }}.&nbsp;{{ item.imageUrlText }}:&nbsp;
-          <a :href="item.url" target="_blank">{{ item.url }}</a>
-        </a-list-item>
-      </a-list>
-    </div>
+    
     <div class="one-block-1">
       <span>
         1. 目标站点信息
@@ -164,7 +157,6 @@ const httpRegx = new RegExp('^https?:\\/\\/.*$', 'i');
 export default {
   data() {
     return {
-      image_info: [],
       hasErrors,
       form: this.$form.createForm(this, { name: 'horizontal_login' }),
       url: "",

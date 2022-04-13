@@ -443,6 +443,25 @@ class ExampleController extends Controller {
     return true;
   }
 
+  openFile(filePath) {
+    if (!filePath) {
+      return false;
+    }
+
+    this.app.logger.info('[openFile] Path:', filePath);
+
+    // 检查程序是否存在
+    if (!fs.existsSync(filePath)) {
+      return false;
+    }
+    // 命令行字符串 并 执行
+    // let cmdStr = 'start \"' + filePath + '\"';
+    // exec(cmdStr);
+    shell.openPath(filePath);
+
+    return true;
+  }
+
   // 列出报告
   listReports(dirPath) {
     let dirPath_ = path.join(Utils.getExtraResourcesDir(), dirPath);
@@ -451,7 +470,7 @@ class ExampleController extends Controller {
     }
 
     let reportsList = fs.readdirSync(dirPath_);
-    this.app.logger.info('[listReports] reportsList:', reportsList);
+    // this.app.logger.info('[listReports] reportsList:', reportsList);
     var res = new Array()
     for(const i of reportsList){
       var tmp = i.split("_",2)
@@ -466,7 +485,7 @@ class ExampleController extends Controller {
       }
       res.push(out)
     }
-    this.app.logger.info('[listReports] res: ',res)
+    // this.app.logger.info('[listReports] res: ',res)
     return res;
   }
 

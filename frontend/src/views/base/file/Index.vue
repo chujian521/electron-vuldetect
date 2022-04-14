@@ -257,6 +257,7 @@ export default {
   width: 100%;
   .one-block-1 {
     font-size: 16px;
+    font-weight:bold;
     padding-top: 10px;
   }
   .one-block-2 {

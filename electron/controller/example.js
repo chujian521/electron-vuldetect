@@ -448,7 +448,7 @@ class ExampleController extends Controller {
       return false;
     }
 
-    this.app.logger.info('[openFile] Path:', filePath);
+    this.app.logger.info('[openFile] Path: ', filePath);
 
     // 检查程序是否存在
     if (!fs.existsSync(filePath)) {
@@ -459,6 +459,17 @@ class ExampleController extends Controller {
     // exec(cmdStr);
     shell.openPath(filePath);
 
+    return true;
+  }
+
+  openFolder(p) {
+    if (!path) {return false;}
+    let folderPath = path.join(Utils.getExtraResourcesDir(), p);
+    this.app.logger.info('[openFolder] Path: ', folderPath);
+    if (!fs.existsSync(folderPath)) {
+      return false;
+    }
+    shell.showItemInFolder(folderPath);
     return true;
   }
 
@@ -473,9 +484,15 @@ class ExampleController extends Controller {
     // this.app.logger.info('[listReports] reportsList:', reportsList);
     var res = new Array()
     for(const i of reportsList){
+      if (i.startsWith('~')) {continue;}
       var tmp = i.split("_",2)
       var url = tmp[0]
       var date = tmp[1].split(".",1)[0]
+      const dateAry = date.split('');
+      dateAry[10] = 'T';
+      dateAry[13] = ':';
+      dateAry[16] = ':';
+      date = dateAry.join('');
       url = replace(url,",",":")
       url = replace(url,";","/")
       var out={

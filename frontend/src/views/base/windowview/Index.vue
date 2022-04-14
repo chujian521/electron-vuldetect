@@ -2,13 +2,16 @@
   <div id="app-base-window-view">
     
     <div class="one-block-1">
-      <a-page-header
-        style="border: 1px solid rgb(235, 237, 240)"
-        title="漏洞报告"
-      />
+      <a-space style="margin:5px">
+        <a-icon type="file-word" />
+        <span>漏洞报告</span>  
+      </a-space>
+      <a-space style="float:right; margin:5px; height:24px">
+        <a-button type="primary" icon="folder" @click="openFolder">打开文件夹</a-button>
+      </a-space>
     </div>  
     <div class="one-block-2">
-      <span v-if="Object.keys(report_list)==0">暂无报告</span>
+      <span v-if="Object.keys(report_list)==0" style="margin-left:6px">暂无报告</span>
       <a-collapse v-model="activeKey">
         <a-collapse-panel v-for="(urlInfo, url) in report_list" :key="url" :header="url">
           <a-table :columns="reportCols" :data-source="getData(urlInfo)">
@@ -60,6 +63,12 @@ export default {
           title: '日期',
           dataIndex: 'date',
           key: 'date',
+          defaultSortOrder: 'descend',
+          sorter: (a, b) => {
+            const adate = new Date(a.date);
+            const bdate = new Date(b.date);
+            return adate > bdate;
+          },
         },
         {
           title: '漏洞报告',
@@ -139,18 +148,28 @@ export default {
         }
         this.isRunning = false;
       })
-    }
+    },
+    openFolder(){
+      this.$ipcCall(ipcApiRoute.openFolder, reportDir).then(result => {
+        if (!result) {
+          this.$message.error('文件夹不存在');
+        }
+      })
+    },
   }
 };
 </script>
 <style lang="less" scoped>
 #app-base-window-view {
-  padding: 0px 10px;
+  padding: 10px 10px;
   text-align: left;
   width: 100%;
   .one-block-1 {
     font-size: 16px;
-    padding-top: 10px;
+    font-weight:bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid rgb(235, 237, 240);
   }
   .one-block-2 {
     padding-top: 10px;

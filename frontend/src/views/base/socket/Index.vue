@@ -85,6 +85,7 @@ export default {
   .one-block-1 {
     font-size: 16px;
     padding-top: 10px;
+    font-weight:bold;
   }
   .one-block-2 {
     padding-top: 10px;

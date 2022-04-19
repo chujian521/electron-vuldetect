@@ -437,7 +437,7 @@ class ExampleController extends Controller {
       return false;
     }
     // 命令行字符串 并 执行
-    let cmdStr = 'start \"' + softwarePath + '\"';
+    let cmdStr = 'start \"LogicDetector\" \"' + softwarePath + '\"';
     exec(cmdStr);
 
     return true;

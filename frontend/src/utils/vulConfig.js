@@ -19,6 +19,9 @@ const vulOptions = {
     '密码重置无需原密码': ['CHANGE_PASSWD'],
     '会话令牌写入URL': ['TOKEN_IN_URL'],
     '任意文件下载': ['ARBITRARY_FILE_DOWNLOAD'],
+    '文件上传漏洞': ['FILE_UPLOAD'],
+    '越权漏洞': ['OVER_PERMISSION'],
+    '未授权访问': ['UNAUTHORIZED_ACCESS']
 }
 
 export {

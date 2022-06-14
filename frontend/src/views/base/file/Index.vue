@@ -26,7 +26,7 @@
     <div class="one-block-2" style="width: 600px">
       <a-space style="margin: 5px">
         <span>用户密码</span>
-        <a-switch default-checked @change="authChange" />
+        <a-switch @change="authChange" />
       </a-space>
       
       <a-form layout="inline" :form="form" @submit="handleSubmit">
@@ -148,7 +148,7 @@ const captchaVul = [
 ]
 
 const otherVul = [
-  '登录绕过', '密码重置无需原密码', '会话令牌写入URL',
+  '登录绕过', '密码重置无需原密码*', '会话令牌写入URL',
   '任意文件下载'
 ]
 
@@ -161,7 +161,7 @@ export default {
       form: this.$form.createForm(this, { name: 'horizontal_login' }),
       url: "",
       schema: "https://",
-      noAuth: false,
+      noAuth: true,
       target_info: {
         "url": "",
         "username": "",
@@ -220,15 +220,30 @@ export default {
       console.log('Save url: ,', this.target_info.url);
       this.target_info.modules = [];
       for (const v of this.sms_state) {
-        for (const key of vulOptions[v])
+        let ov = v;
+        if (v.endsWith('*')) {
+          ov = v.substr(0, v.length-1);
+        }
+        for (const key of vulOptions[ov])
           this.target_info.modules.push(key);
       }
       for (const v of this.cap_state) {
-        for (const key of vulOptions[v])
+        let ov = v;
+        if (v.endsWith('*')) {
+          ov = v.substr(0, v.length-1);
+        }
+        for (const key of vulOptions[ov])
           this.target_info.modules.push(key);
       }
+      console.log(JSON.stringify(this.other_state));
       for (const v of this.other_state) {
-        for (const key of vulOptions[v])
+        let ov = v;
+        if (v.endsWith('*')) {
+          ov = v.substr(0, v.length-1);
+        }
+        console.log(ov);
+        
+        for (const key of vulOptions[ov])
           this.target_info.modules.push(key);
       }
       // console.log("Save config: ", JSON.stringify(this.target_info));

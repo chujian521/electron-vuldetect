@@ -9,3 +9,4 @@ data/
 LogicDetector
 build
 public/dist
+public/dist/*

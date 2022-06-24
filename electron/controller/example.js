@@ -133,9 +133,25 @@ class ExampleController extends Controller {
   }
 
   /**
-   * 选择目录
+   * 选择文件
    */
-  selectFolder() {
+  selectFile() {
+    const filePaths = dialog.showOpenDialogSync({
+      filters: 'py',
+      properties: ['openFile', 'showHiddenFiles']
+    });
+
+    if (_.isEmpty(filePaths)) {
+      return null
+    }
+
+    return filePaths[0];
+  }
+
+  /**
+   * 选择目录
+  */
+   selectFolder() {
     const filePaths = dialog.showOpenDialogSync({
       properties: ['openDirectory', 'createDirectory']
     });
@@ -485,6 +501,7 @@ class ExampleController extends Controller {
     var res = new Array()
     for(const i of reportsList){
       if (i.startsWith('~')) {continue;}
+      if (fs.statSync(dirPath_+"\\"+i).isDirectory()){continue;}//如果是目录也不处理
       var tmp = i.split("_",2)
       var url = tmp[0]
       var date = tmp[1].split(".",1)[0]

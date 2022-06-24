@@ -5,6 +5,7 @@ const ipcApiRoute = {
   messageShow: 'controller.example.messageShow',
   messageShowConfirm: 'controller.example.messageShowConfirm',
   selectFolder: 'controller.example.selectFolder',
+  selectFile: 'controller.example.selectFile',
   openDirectory: 'controller.example.openDirectory',
   socketMessageStart: 'controller.example.socketMessageStart',
   socketMessageStop: 'controller.example.socketMessageStop',

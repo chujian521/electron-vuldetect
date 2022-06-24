@@ -42,13 +42,6 @@ export default {
           params: {},
           show: true
         },
-        'menu_301' : {
-          icon: 'profile',
-          title: '数据库',
-          pageName: 'BaseDBIndex',
-          params: {},
-          show: false
-        },
         'menu_400' : {
           icon: 'profile',
           title: '报告',
@@ -56,19 +49,26 @@ export default {
           params: {},
           show: true
         },
-        'menu_401' : {
+        'menu_301' : {
           icon: 'profile',
-          title: '窗口',
+          title: '支付漏洞配置',
+          pageName: 'BaseDBIndex',
+          params: {},
+          show: true
+        },
+        'menu_302' : {
+          icon: 'profile',
+          title: '支付漏洞执行',
           pageName: 'BaseWindowIndex',
           params: {},
-          show: false
+          show: true
         },
-        'menu_405' : {
+        'menu_303' : {
           icon: 'profile',
-          title: '桌面通知',
+          title: '支付漏洞报告',
           pageName: 'BaseNotificationIndex',
           params: {},
-          show: false
+          show: true
         },
         'menu_407' : {
           icon: 'profile',

@@ -2,52 +2,52 @@
   <div id="app-base-window">
     <div class="one-block-1">
       <span>
-        1. 新窗口中加载web内容
+        开始执行支付漏洞检测任务
       </span>
     </div>  
     <div class="one-block-2">
       <a-space>
-        <a-button @click="createWindow(0)">打开哔哩哔哩</a-button>
+        <a-button type="primary" :icon="isRunning? 'sync':'caret-right'" @click="openSoft">开始</a-button>
+        <!-- <a-button @click="socketMsgStop">结束</a-button> -->
       </a-space>
-    </div>
-    <div class="one-block-1">
-      <span>
-        2. 新窗口中加载html内容
-      </span>
-    </div>  
-    <div class="one-block-2">
-      <a-space>
-        <a-button @click="createWindow(1)">打开html页面</a-button>
-      </a-space>
+      <p>
+        <a-divider>测试输出</a-divider>
+        {{ socketMessageString }}
+      </p>
     </div>
   </div>
 </template>
 <script>
 import { ipcApiRoute } from '@/api/main'
-
 export default {
   data() {
     return {
-      views: [
-        {
-          type: 'web',
-          content: 'https://www.bilibili.com/'
-        },
-        {
-          type: 'html',
-          content: '/public/html/view_example.html'
-        },        
-      ],
-    };
+      isRunning: false,
+      socketMessageString: '',
+      DetLogic:'.\\DetLogic\\DetLogic.exe'
+    }
+  },
+  mounted () {
+    this.init();
   },
   methods: {
-    createWindow (index) {
-      this.$ipcCall(ipcApiRoute.createWindow, this.views[index]).then(r => {
-        console.log(r);
-      })
+    startRun() {
+      if (!this.isRunning) {
+        this.isRunning = true;
+        this.openSoft();
+      }
+    },
+    openSoft () {
+      const self = this;   
+      this.$ipcCall(ipcApiRoute.openSoftware, this.DetLogic).then(result => {
+        if (!result) {
+          self.$message.error('程序不存在');
+        }
+        this.isRunning = false;
+      })       
     },
   }
-};
+}
 </script>
 <style lang="less" scoped>
 #app-base-window {
@@ -57,6 +57,7 @@ export default {
   .one-block-1 {
     font-size: 16px;
     padding-top: 10px;
+    font-weight:bold;
   }
   .one-block-2 {
     padding-top: 10px;

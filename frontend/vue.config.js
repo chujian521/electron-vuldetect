@@ -21,7 +21,7 @@ module.exports = {
           less: {
               modifyVars: {
                 //在此处设置，也可以设置直角、边框色、字体大小等
-                'primary-color': '#07C160',
+                'primary-color': '#005be6',//#07C160->#005be6主题颜色设置为太保蓝
               },
               javascriptEnabled: true
           }

@@ -193,10 +193,10 @@ export default {
         "result_db_quantity_product_key_keyword" : "model",
         "result_db_quantity_product_value_keyword" : "quantity",
 
-        "userID": "",
-        "password": "",
-        "userID1": "",
-        "password1": "",
+        "userID": "18888888888",
+        "password": "123456",
+        "userID1": "111111",
+        "password1": "111111",
       },
     };
   },

@@ -21,7 +21,8 @@ const vulOptions = {
     '任意文件下载': ['ARBITRARY_FILE_DOWNLOAD'],
     '文件上传漏洞': ['FILE_UPLOAD'],
     '越权漏洞': ['OVER_PERMISSION'],
-    '未授权访问': ['UNAUTHORIZED_ACCESS']
+    '未授权访问': ['UNAUTHORIZED_ACCESS'],
+    '重放': ['LOGIN_REPEAT']
 }
 
 export {

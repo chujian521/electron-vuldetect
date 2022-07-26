@@ -72,24 +72,24 @@ export default {
         },
         'menu_407' : {
           icon: 'profile',
-          title: '电源监控',
+          title: '源代码配置',
           pageName: 'BasePowerMonitorIndex',
           params: {},
-          show: false
+          show: true
         },
         'menu_409' : {
           icon: 'profile',
-          title: '屏幕信息',
+          title: '源代码执行',
           pageName: 'BaseScreenIndex',
           params: {},
-          show: false
+          show: true
         },
         'menu_411' : {
           icon: 'profile',
-          title: '系统主题',
+          title: '源代码报告',
           pageName: 'BaseThemeIndex',
           params: {},
-          show: false
+          show: true
         },   
         'menu_412' : {
           icon: 'profile',

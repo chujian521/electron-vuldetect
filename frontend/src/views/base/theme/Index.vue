@@ -1,81 +1,91 @@
 <template>
-  <div id="app-base-screen">
-    <div class="one-block-1">
+  <div id="app-base-socket-ipc">
+    <!-- <div class="one-block-1">
       <span>
-        1. 系统主题模式
+        1. 渲染进程与主进程IPC通信
       </span>
-    </div>
-    <div class="one-block-2">
-      <a-space>
-        <a-button @click="getTheme()">获取模式</a-button>
-      </a-space>
-      <span>
-        结果：{{ currentThemeMode }}
-      </span>
-    </div>
-    <div class="one-block-1">
-      2. 设置主题模式（请自行实现前端UI效果）
     </div>  
     <div class="one-block-2">
-      <a-radio-group v-model="currentThemeMode" @change="setTheme">
-        <a-radio :value="themeList[0]">
-          {{ themeList[0] }}
-        </a-radio>
-        <a-radio :value="themeList[1]">
-          {{ themeList[1] }}
-        </a-radio>
-        <a-radio :value="themeList[2]">
-          {{ themeList[2] }}
-        </a-radio>
-      </a-radio-group>
+      <a-list bordered>
+        <a-input-search v-model="content" @search="helloHandle">
+          <a-button slot="enterButton">
+            send
+          </a-button>
+        </a-input-search>
+      </a-list>
+    </div>
+    <div class="one-block-1">
+      <span>
+        2. 主进程API执行网页函数
+      </span>
+    </div>  
+    <div class="one-block-2">
+      <a-list bordered>
+        <a-input-search v-model="content2" @search="executeJSHandle">
+          <a-button slot="enterButton">
+            send
+          </a-button>
+        </a-input-search>
+      </a-list>
+    </div> -->
+    <div class="one-block-1">
+      <span>
+        开始执行任务
+      </span>
+    </div>  
+    <div class="one-block-2">
+      <a-space>
+        <a-button type="primary" :icon="isRunning? 'sync':'caret-right'" @click="openSoft">开始</a-button>
+        <!-- <a-button @click="socketMsgStop">结束</a-button> -->
+      </a-space>
+      <p>
+        <a-divider>测试输出</a-divider>
+        {{ socketMessageString }}
+      </p>
     </div>
   </div>
 </template>
 <script>
 import { ipcApiRoute } from '@/api/main'
-
 export default {
   data() {
     return {
-      currentThemeMode: '',
-      themeList: [
-        'system',
-        'light',
-        'dark'
-      ]
-    };
+      isRunning: false,
+      socketMessageString: '',
+      logicDetector:'.\\LogicDetector\\LogicDetector.exe'
+    }
   },
   mounted () {
+    this.init();
   },
   methods: {
-    setTheme (e) {
-      const self = this;
-      this.currentThemeMode = e.target.value;
-      console.log('setTheme currentThemeMode:', this.currentThemeMode)
-
-      this.$ipcCall(ipcApiRoute.setTheme, this.currentThemeMode).then(result => {
-        console.log('result:', result)
-        self.currentThemeMode = result;
-      })      
+    startRun() {
+      if (!this.isRunning) {
+        this.isRunning = true;
+        this.openSoft();
+      }
     },
-    getTheme () {
-      const self = this;
-      this.$ipcCall(ipcApiRoute.getTheme).then(result => {
-        console.log('result:', result)
-        self.currentThemeMode = result;
-      })  
+    openSoft () {
+      const self = this;   
+      this.$ipcCall(ipcApiRoute.openSoftware, this.logicDetector).then(result => {
+        if (!result) {
+          self.$message.error('程序不存在');
+        }
+        this.isRunning = false;
+      })       
     },
   }
-};
+}
 </script>
 <style lang="less" scoped>
-#app-base-screen {
+#app-base-socket-ipc {
   padding: 0px 10px;
   text-align: left;
   width: 100%;
   .one-block-1 {
     font-size: 16px;
     padding-top: 10px;
+    font-weight:bold;
   }
   .one-block-2 {
     padding-top: 10px;

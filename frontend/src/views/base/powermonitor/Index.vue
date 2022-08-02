@@ -94,7 +94,7 @@ export default {
       form: this.$form.createForm(this, { name: 'horizontal_login' }),
       target_info: {
         src_dir: "",
-        config:[],
+        db_config:[],
         mode:"mybatis"
       },
     };
@@ -115,7 +115,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
-          this.target_info.config.push({"table_name":values.tableName,"belong_to_column":values.column});
+          this.target_info.db_config.push({"table_name":values.tableName,"belong_to_column":values.column});
           this.$message.success('已保存');
         }
       });

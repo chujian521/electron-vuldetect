@@ -5,8 +5,10 @@ run/
 .idea/
 package-lock.json
 data/
+.vscode/
 .vscode/launch.json
 LogicDetector
 build
 public/dist
 public/dist/*
+.vscode/settings.json

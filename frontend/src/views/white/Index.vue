@@ -35,6 +35,13 @@ export default {
           params: {},
           show: true
         },
+        'menu_101' : {
+          icon: 'profile',
+          title: '支付漏洞',
+          pageName: 'PaymentIndex',
+          params: {},
+          show: true
+        },
         'menu_200' : {
           icon: 'profile',
           title: '检测结果',

@@ -18,6 +18,7 @@ const ipcApiRoute = {
   initPowerMonitor: 'controller.example.initPowerMonitor',
   getScreen: 'controller.example.getScreen',
   openSoftware: 'controller.example.openSoftware', 
+  openSoftwareWithParam: 'controller.example.openSoftwareWithParam',
   autoLaunch: 'controller.example.autoLaunch',
   setTheme: 'controller.example.setTheme',
   getTheme: 'controller.example.getTheme',

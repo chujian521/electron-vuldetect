@@ -104,6 +104,11 @@ export const constantRouterMap = [
             component: () => import('@/views/white/file/Index')
           },
           {
+            path: '/white/payment/index',
+            name: 'PaymentIndex',
+            component: () => import('@/views/white/payment/Index')
+          },
+          {
             path: '/white/report/index',
             name: 'WReportIndex',
             component: () => import('@/views/white/report/Index')

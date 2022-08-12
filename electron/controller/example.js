@@ -459,6 +459,30 @@ class ExampleController extends Controller {
     return true;
   }
 
+  /**
+   * 调用其它程序（exe、bash等可执行程序,带参数）
+   */
+   openSoftwareWithParam(args) {
+    let softName = args[0];
+    let param = " -progress -html -output "+ Utils.getExtraResourcesDir() + args[1];
+    if (!softName) {
+      return false;
+    }
+
+    let softwarePath = path.join(Utils.getExtraResourcesDir(), softName);
+    this.app.logger.info('[openSoftware] softwarePath:', softwarePath);
+
+    // 检查程序是否存在
+    if (!fs.existsSync(softwarePath)) {
+      return false;
+    }
+    // 命令行字符串 并 执行
+    let cmdStr = 'start \"LogicDetector\" \"' + softwarePath  +'\"' + param;
+    exec(cmdStr);
+
+    return true;
+  }
+
   openFile(filePath) {
     if (!filePath) {
       return false;

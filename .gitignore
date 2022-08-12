@@ -12,3 +12,4 @@ build
 public/dist
 public/dist/*
 .vscode/settings.json
+resources/

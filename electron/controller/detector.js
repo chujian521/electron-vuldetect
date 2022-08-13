@@ -16,6 +16,18 @@ function rpath(p) {
     return path.join(Utils.getExtraResourcesDir(), p);
 }
 
+function replace(str, substr, newstr) {
+  var p = -1; // 字符出现位置
+  var s = 0; // 下一次起始位置
+
+  while((p = str.indexOf(substr, s)) > -1) {
+    s = p + newstr.length; // 位置 + 值的长度
+    str = str.replace(substr, newstr);
+  }
+
+  return str;
+}
+
 class DetectorController extends Controller {
 
     constructor(ctx) {
@@ -51,6 +63,42 @@ class DetectorController extends Controller {
         exec(javaCmd);
         process.chdir(cwd);
         return true;
+      }
+    
+      listWhiteReports(dirPath) {
+        let dirPath_ = path.join(Utils.getExtraResourcesDir(), dirPath);
+        if (!dirPath_) {
+          return nil;
+        }
+
+        let reportsList = fs.readdirSync(dirPath_);
+        // this.app.logger.info('[listReports] reportsList:', reportsList);
+        var res = new Array()
+        for(const i of reportsList){
+          if (!i) {
+            continue;
+          }
+          if (i.startsWith('~')) {continue;}
+          if (fs.statSync(dirPath_+"\\"+i).isDirectory()){continue;}//如果是目录也不处理
+          var tmp = i.split("_",2)
+          var url = tmp[0]
+          var date = tmp[1].split(".",1)[0]
+          const dateAry = date.split('');
+          dateAry[10] = 'T';
+          dateAry[13] = ':';
+          dateAry[16] = ':';
+          date = dateAry.join('');
+          url = replace(url,",",":")
+          url = replace(url,";","/")
+          var out={
+            "url": url,
+            "reportName": path.join(dirPath_,i),
+            "date": date
+          }
+          res.push(out)
+        }
+        // this.app.logger.info('[listReports] res: ',res)
+        return res;
       }
 
 }

@@ -524,6 +524,9 @@ class ExampleController extends Controller {
     // this.app.logger.info('[listReports] reportsList:', reportsList);
     var res = new Array()
     for(const i of reportsList){
+      if (!i) {
+        continue;
+      }
       if (i.startsWith('~')) {continue;}
       if (fs.statSync(dirPath_+"\\"+i).isDirectory()){continue;}//如果是目录也不处理
       var tmp = i.split("_",2)
@@ -534,8 +537,6 @@ class ExampleController extends Controller {
       dateAry[13] = ':';
       dateAry[16] = ':';
       date = dateAry.join('');
-      url = replace(url,",",":")
-      url = replace(url,";","/")
       var out={
         "url": url,
         "reportName": path.join(dirPath_,i),

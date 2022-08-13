@@ -48,7 +48,7 @@ import { ipcApiRoute } from '@/api/main'
 //     },
 //   },
 // }
-const reportDir = '.\\SourceCodeDetector\\reports';
+const reportDir = '.\\jvdetector\\results';
 
 export default {
   data() {
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     parse_reports() {
-      this.$ipcCall(ipcApiRoute.listReports, reportDir).then(res=>{
+      this.$ipcCall(ipcApiRoute.listWhiteReports, reportDir).then(res=>{
         if (res) {
           this.updateReports(res);
         } else {

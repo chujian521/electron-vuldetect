@@ -30,12 +30,19 @@ export default {
       menu: {
         'menu_100' : {
           icon: 'profile',
+          title: '越权漏洞',
+          pageName: 'AuthorityIndex',
+          params: {},
+          show: true
+        },
+        'menu_101' : {
+          icon: 'profile',
           title: '文件上传',
           pageName: 'FileUploadIndex',
           params: {},
           show: true
         },
-        'menu_101' : {
+        'menu_102' : {
           icon: 'profile',
           title: '支付漏洞',
           pageName: 'PaymentIndex',

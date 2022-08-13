@@ -14,6 +14,10 @@
       <div />
       <a-input v-model="src_dir" placeholder="jar/classes路径" style="width: 460px">
       </a-input>  
+      <a-button 
+      @click="selectFile">
+      选择文件夹
+      </a-button>
     </div>
 
     <div class="one-block-1">
@@ -45,7 +49,12 @@ export default {
     };
   },
   methods: {
-    
+    selectFile() {
+      this.$ipcCall(ipcApiRoute.selectFolder, '').then(r => {
+        this.src_dir = r;
+        this.$message.info(r);
+      })      
+    },
     execAnalyze() {
       if (!this.isRunning) {
         this.isRunning = true;
@@ -79,7 +88,7 @@ export default {
       var time = this.getCurrentTime();
 
       this.DetLogic[1] = "\\SourceCodeDetector\\reports\\payment_"+ time +".htm " + this.src_dir;
-      self.$message.info(this.DetLogic[1]);
+      //self.$message.info(this.DetLogic[1]);
       this.$ipcCall(ipcApiRoute.openSoftwareWithParam, this.DetLogic).then(result => {
         if (!result) {
           self.$message.error('程序不存在');

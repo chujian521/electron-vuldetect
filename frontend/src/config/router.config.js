@@ -99,6 +99,11 @@ export const constantRouterMap = [
         component: () => import('@/views/white/Index'),
         children: [
           {
+            path: '/white/authority/index',
+            name: 'AuthorityIndex',
+            component: () => import('@/views/white/authority/Index')
+          },
+          {
             path: '/white/file/index',
             name: 'FileUploadIndex',
             component: () => import('@/views/white/file/Index')

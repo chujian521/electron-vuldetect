@@ -31,7 +31,7 @@ export default {
       menu: {
         'menu_1' : {
           icon: 'home',
-          title: '功能',
+          title: '黑盒',
           pageName: 'BaseIndex',
           params: {},
         },

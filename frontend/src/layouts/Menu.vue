@@ -75,21 +75,21 @@ export default {
           title: '源代码配置',
           pageName: 'BasePowerMonitorIndex',
           params: {},
-          show: true
+          show: false
         },
         'menu_409' : {
           icon: 'profile',
           title: '源代码执行',
           pageName: 'BaseScreenIndex',
           params: {},
-          show: true
+          show: false
         },
         'menu_411' : {
           icon: 'profile',
           title: '源代码报告',
           pageName: 'BaseThemeIndex',
           params: {},
-          show: true
+          show: false
         },   
         'menu_412' : {
           icon: 'profile',

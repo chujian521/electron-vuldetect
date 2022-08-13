@@ -14,6 +14,10 @@
       <div />
       <a-input v-model="target_info.src_dir" placeholder="jar/war路径" style="width: 460px">
       </a-input>  
+      <a-button 
+      @click="selectFile">
+      选择文件
+      </a-button>
     </div>
 
     <div class="one-block-1">
@@ -45,7 +49,12 @@ export default {
     };
   },
   methods: {
-    
+    selectFile() {
+      this.$ipcCall(ipcApiRoute.selectFile, '').then(r => {
+        this.target_info.src_dir = r;
+        this.$message.info(r);
+      })      
+    },
     execAnalyze() {
       let jar = this.target_info.src_dir;
       if (jar == '' || !(jar.endsWith('.jar') || jar.endsWith('.war')) ) {

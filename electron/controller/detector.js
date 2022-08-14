@@ -12,9 +12,10 @@ const { dialog, webContents, shell, BrowserWindow, BrowserView,
   Notification, powerMonitor, screen, nativeTheme } = require('electron');
 const autoLaunchManager = require('../library/autoLaunch');
 
-function rpath(p) {
-    return path.join(Utils.getExtraResourcesDir(), p);
+function spath(p) {
+    return path.join(Utils.getExtraResourcesDir(), "SourceCodeDetector", p);
 }
+
 
 function replace(str, substr, newstr) {
   var p = -1; // 字符出现位置
@@ -36,11 +37,11 @@ class DetectorController extends Controller {
 
     execJvdetector(args) {
         let jarPath = args["jarpath"];
-        jarPath = jarPath.replaceAll('\\', '/');
+        jarPath = jarPath.replaceAll('\\', '/'); //absolute path
         if (!jarPath) {
           return false;
         }
-        let jarsDir = rpath('jvdetector/jars')
+        let jarsDir = spath('jars')
         if (!fs.existsSync(jarsDir)) {
             fs.mkdirSync(jarsDir);
         }
@@ -50,17 +51,19 @@ class DetectorController extends Controller {
         }
 
         let jarname = path.posix.basename(jarPath);
-        let inputPath = path.join(jarsDir, jarname);
-        fs.copyFileSync(jarPath, inputPath);
+        let desPath = path.join(jarsDir, jarname);
+        fs.copyFileSync(jarPath, desPath);
 
-        let jdPath = rpath('jvdetector/jvdetector.jar');
-        let workDir = rpath('jvdetector');
-        let javaCmd = 'java -jar '+'\"'+jdPath+'\"'+' -v -jp '+'\"jars/'+jarname+'\"';
+        let jdPath = spath('jvdetector/jvdetector.jar');
+        let workDir = spath('');
+        // this.app.logger.info(workDir);
+        let cmd = '.\\jvdetector.exe -jp ' +'\"jars/'+jarname+'\"';
+        // let javaCmd = 'java -jar '+'\"'+jdPath+'\"'+' -v -jp '+'\"jars/'+jarname+'\"';
         // 命令行字符串 并 执行
         let cwd = process.cwd();
         process.chdir(workDir);
-        this.app.logger.info(javaCmd);
-        exec(javaCmd);
+        this.app.logger.info(cmd);
+        exec(cmd);
         process.chdir(cwd);
         return true;
       }
@@ -68,9 +71,11 @@ class DetectorController extends Controller {
       listWhiteReports(dirPath) {
         let dirPath_ = path.join(Utils.getExtraResourcesDir(), dirPath);
         if (!dirPath_) {
-          return nil;
+          return [];
         }
-
+        if (! fs.existsSync(dirPath_)) {
+          return [];
+        }
         let reportsList = fs.readdirSync(dirPath_);
         // this.app.logger.info('[listReports] reportsList:', reportsList);
         var res = new Array()

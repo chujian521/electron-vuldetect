@@ -517,9 +517,11 @@ class ExampleController extends Controller {
   listReports(dirPath) {
     let dirPath_ = path.join(Utils.getExtraResourcesDir(), dirPath);
     if (!dirPath_) {
-      return nil;
+      return [];
     }
-
+    if (! fs.existsSync(dirPath_)) {
+      return [];
+    }
     let reportsList = fs.readdirSync(dirPath_);
     // this.app.logger.info('[listReports] reportsList:', reportsList);
     var res = new Array()

@@ -122,7 +122,7 @@ export default {
     selectFile() {
       this.$ipcCall(ipcApiRoute.selectFolder, '').then(r => {
         this.target_info.src_dir = r;
-        this.$message.info(r);
+        // this.$message.info(r);
       })      
     },
     startRun() {

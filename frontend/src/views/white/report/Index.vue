@@ -48,7 +48,7 @@ import { ipcApiRoute } from '@/api/main'
 //     },
 //   },
 // }
-const reportDir = '.\\jvdetector\\results';
+const reportDir = '.\\SourceCodeDetector\\reports';
 
 export default {
   data() {

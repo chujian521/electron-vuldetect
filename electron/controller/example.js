@@ -463,22 +463,26 @@ class ExampleController extends Controller {
    * 调用其它程序（exe、bash等可执行程序,带参数）
    */
    openSoftwareWithParam(args) {
-    let softName = args[0];
+    let softPath = args[0];
+    let softwareName = args[2];
     let param = " -progress -html -output "+ Utils.getExtraResourcesDir() + args[1];
-    if (!softName) {
+    if (!softPath) {
       return false;
     }
 
-    let softwarePath = path.join(Utils.getExtraResourcesDir(), softName);
+    let softwarePath = path.join(Utils.getExtraResourcesDir(), softPath);
     this.app.logger.info('[openSoftware] softwarePath:', softwarePath);
 
     // 检查程序是否存在
     if (!fs.existsSync(softwarePath)) {
       return false;
     }
+    let cwd = process.cwd();
+    process.chdir(softwarePath);
     // 命令行字符串 并 执行
-    let cmdStr = 'start \"LogicDetector\" \"' + softwarePath  +'\"' + param;
+    let cmdStr = 'start \"LogicDetector\" \"' + softwareName  +'\"' + param;
     exec(cmdStr);
+    process.chdir(cwd);
 
     return true;
   }

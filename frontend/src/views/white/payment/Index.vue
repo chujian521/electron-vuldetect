@@ -45,7 +45,7 @@ export default {
       src_dir: "",
       isRunning: false,
       socketMessageString: '',
-      DetLogic:['.\\SourceCodeDetector\\findsecbugs\\findsecbugs.bat',""]
+      DetLogic:['.\\SourceCodeDetector\\findsecbugs\\',"","findsecbugs.exe"]
     };
   },
   methods: {

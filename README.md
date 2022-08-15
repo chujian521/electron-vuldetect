@@ -51,8 +51,16 @@ npm run build-w-64
     +repair
     -LogicDetector.exe
     -online.exe
++DetLogic
+    +driver
+    +UA_module
+    -DetLogic.exe
+    -default.json
+    -config.json
 +SourceCodeDetector
     +jre   //jre 1.8当中lib jar包
+    +findsecbugs
+    +reports
     -SourceCodeDetector.exe
     -jvdetector.exe  //使用Jsmooth工具打包
     -config.properties

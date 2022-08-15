@@ -52,7 +52,7 @@ export default {
     selectFile() {
       this.$ipcCall(ipcApiRoute.selectFolder, '').then(r => {
         this.src_dir = r;
-        this.$message.info(r);
+        //this.$message.info(r);
       })      
     },
     execAnalyze() {
@@ -63,18 +63,18 @@ export default {
       
     },
     getCurrentTime() {
-    var date = new Date();//当前时间
-    var year = date.getFullYear() //返回指定日期的年份
-    var month = this.repair(date.getMonth() + 1);//月
-    var day = this.repair(date.getDate());//日
-    var hour = this.repair(date.getHours());//时
-    var minute = this.repair(date.getMinutes());//分
-    var second = this.repair(date.getSeconds());//秒
-    
-    //当前时间 
-    var curTime = year + "-" + month + "-" + day
-            + "-" + hour + "-" + minute + "-" + second;
-    return curTime;
+      var date = new Date();//当前时间
+      var year = date.getFullYear() //返回指定日期的年份
+      var month = this.repair(date.getMonth() + 1);//月
+      var day = this.repair(date.getDate());//日
+      var hour = this.repair(date.getHours());//时
+      var minute = this.repair(date.getMinutes());//分
+      var second = this.repair(date.getSeconds());//秒
+      
+      //当前时间 
+      var curTime = year + "-" + month + "-" + day
+              + "-" + hour + "-" + minute + "-" + second;
+      return curTime;
     },
     repair(i){
       if (i >= 0 && i <= 9) {

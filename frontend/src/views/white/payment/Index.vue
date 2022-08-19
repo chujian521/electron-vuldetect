@@ -87,7 +87,7 @@ export default {
       const self = this;  
       var time = this.getCurrentTime();
 
-      this.DetLogic[1] = "\\SourceCodeDetector\\reports\\payment_"+ time +".htm " + this.src_dir;
+      this.DetLogic[1] = "\\SourceCodeDetector\\reports\\payment_"+ time +".htm\" \"" + this.src_dir+ "\"";
       //self.$message.info(this.DetLogic[1]);
       this.$ipcCall(ipcApiRoute.openSoftwareWithParam, this.DetLogic).then(result => {
         if (!result) {

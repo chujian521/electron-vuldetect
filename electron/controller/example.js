@@ -465,7 +465,7 @@ class ExampleController extends Controller {
    openSoftwareWithParam(args) {
     let softPath = args[0];
     let softwareName = args[2];
-    let param = " -progress -html -output "+ Utils.getExtraResourcesDir() + args[1];
+    let param = " -progress -html -output \""+ Utils.getExtraResourcesDir() + args[1];
     if (!softPath) {
       return false;
     }

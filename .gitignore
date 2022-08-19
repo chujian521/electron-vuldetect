@@ -13,3 +13,4 @@ public/dist
 public/dist/*
 .vscode/settings.json
 resources/
+frontend/public/

@@ -63,6 +63,23 @@
       </a-form>
     </div>
 
+    <div class="one-block-2">
+      <a-space style="margin: 5px">
+        <span>批量导入URL</span>  
+        <a-switch @change="csvChange" />
+      </a-space>
+      CSV文件  <a-input 
+        v-model="csv_file"
+        :disabled="!csvFlag"
+        placeholder="xxx.csv"
+      style="width: 360px"></a-input>
+      <a-button 
+      :disabled="!csvFlag"
+      @click="selectFile">
+      选择文件
+      </a-button>
+    </div>
+
     <div class="one-block-1">
       <span>
         2. 测试模式
@@ -166,6 +183,7 @@ export default {
         "url": "",
         "username": "",
         "password": "",
+        "csv_file": "",
         'modules': [],
       },
       smsVul,
@@ -174,6 +192,8 @@ export default {
       sms_state: smsVul,
       cap_state: captchaVul,
       other_state: otherVul,
+      csv_file: "",
+      csvFlag: false,
     };
   },
   methods: {
@@ -201,6 +221,10 @@ export default {
       console.log(`a-switch to ${checked}`);
       this.noAuth = !checked;
     },
+    csvChange(checked) {
+      console.log(`a-switch to ${checked}`);
+      this.csvFlag = checked;
+    },
     smsAllCheck(checked) {
       this.sms_state = checked? smsVul: [];
     },
@@ -210,12 +234,19 @@ export default {
     otherAllCheck(checked) {
       this.other_state = checked? otherVul: [];
     },
+    selectFile() {
+      this.$ipcCall(ipcApiRoute.selectFile, '').then(r => {
+        this.csv_file = r;
+        this.$message.info(r);
+      })      
+    },
     saveConfig() {
-      if (this.url=='') {
+      if (this.url=='' && this.csvFlag==false) {
         this.$message.error('请输入目标网址');
         return;
       }
 
+      this.target_info.csv_file = this.csv_file
       this.target_info.url = httpRegx.test(this.url)? this.url : this.schema+this.url;
       console.log('Save url: ,', this.target_info.url);
       this.target_info.modules = [];

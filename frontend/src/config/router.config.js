@@ -2,12 +2,12 @@
  * 基础路由
  * @type { *[] }
  */
- import {AppSider, Menu} from '@/layouts'
+import { AppSider, Menu } from '@/layouts'
 
- const RouteView = {
-   name: 'RouteView',
-   render: (h) => h('router-view')
- }
+const RouteView = {
+  name: 'RouteView',
+  render: (h) => h('router-view')
+}
 export const constantRouterMap = [
   {
     path: '/',
@@ -21,40 +21,43 @@ export const constantRouterMap = [
           {
             path: '/base/index',
             name: 'BaseIndex',
-            component: () => import('@/views/base/file/Index')
+            component: () => import('@/views/base/config/Index')
           },
           {
-            path: '/base/file/index',
-            name: 'BaseFileIndex',
-            component: () => import('@/views/base/file/Index'),
-            meta:{
+            path: '/base/config/index',
+            name: 'BaseConfigIndex',
+            component: () => import('@/views/base/config/Index'),
+            meta: {
               keepAlive: true
             }
           },
           {
-            path: '/base/socket/index',
-            name: 'BaseSocketIndex',
-            component: () => import('@/views/base/socket/Index')
+            path: '/base/payconfig/index',
+            name: 'BasePayConfigIndex',
+            component: () => import('@/views/base/payconfig/Index'),
+            meta: {
+              keepAlive: true
+            }
           },
           {
-            path: '/base/db/index',
-            name: 'BaseDBIndex',
-            component: () => import('@/views/base/db/Index')
+            path: '/base/exec/index',
+            name: 'BaseExecIndex',
+            component: () => import('@/views/base/exec/Index')
           },
           {
-            path: '/base/windowview/index',
-            name: 'BaseWindowViewIndex',
-            component: () => import('@/views/base/windowview/Index')
+            path: '/base/report/index',
+            name: 'BaseReportIndex',
+            component: () => import('@/views/base/report/Index')
           },
           {
-            path: '/base/window/index',
-            name: 'BaseWindowIndex',
-            component: () => import('@/views/base/window/Index')
+            path: '/base/payexec/index',
+            name: 'BasePayExecIndex',
+            component: () => import('@/views/base/payexec/Index')
           },
           {
-            path: '/base/notification/index',
-            name: 'BaseNotificationIndex',
-            component: () => import('@/views/base/notification/Index')
+            path: '/base/payreport/index',
+            name: 'BasePayReportIndex',
+            component: () => import('@/views/base/payreport/Index')
           },
           {
             path: '/base/powermonitor/index',
@@ -70,7 +73,7 @@ export const constantRouterMap = [
             path: '/base/theme/index',
             name: 'BaseThemeIndex',
             component: () => import('@/views/base/theme/Index')
-          },                               
+          },
           {
             path: '/base/software/open',
             name: 'BaseSoftwareIndex',
@@ -90,8 +93,8 @@ export const constantRouterMap = [
             path: '/base/updater/index',
             name: 'BaseUpdaterIndex',
             component: () => import('@/views/base/updater/Index')
-          },  
-        ]  
+          },
+        ]
       },
       {
         path: '/white',

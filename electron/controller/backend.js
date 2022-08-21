@@ -26,6 +26,7 @@ class BackendController extends Controller {
         // const channel = "controller.example.socketMessageStart"
         const mainWindow = this.app.electron.mainWindow;
         mainWindow.webContents.send(channel, args);
+        mainWindow.show();
         return 0;
     }
 

@@ -17,7 +17,7 @@ const ipcApiRoute = {
   sendNotification: 'controller.example.sendNotification',
   initPowerMonitor: 'controller.example.initPowerMonitor',
   getScreen: 'controller.example.getScreen',
-  openSoftware: 'controller.example.openSoftware', 
+  openSoftware: 'controller.example.openSoftware',
   openSoftwareWithParam: 'controller.example.openSoftwareWithParam',
   autoLaunch: 'controller.example.autoLaunch',
   setTheme: 'controller.example.setTheme',
@@ -31,7 +31,9 @@ const ipcApiRoute = {
   openFile: 'controller.example.openFile',
   openFolder: 'controller.example.openFolder',
   execJvdetector: 'controller.detector.execJvdetector',
-  listWhiteReports: 'controller.detector.listWhiteReports'
+  listWhiteReports: 'controller.detector.listWhiteReports',
+  ipcShowTip: 'controller.backend.ipcShowTip',
+  ipcIgnoreTip: 'controller.backend.ipcIgnoreTip'
 }
 
 const specialIpcRoute = {

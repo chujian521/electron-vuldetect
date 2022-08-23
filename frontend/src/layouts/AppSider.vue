@@ -30,12 +30,6 @@ export default {
       collapsed: true,
       menu: {
         'menu_1' : {
-          icon: 'home',
-          title: '黑盒',
-          pageName: 'BaseIndex',
-          params: {},
-        },
-        'menu_2' : {
           icon: 'profile',
           title: '白盒',
           pageName: 'WhiteIndex',

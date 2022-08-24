@@ -102,7 +102,7 @@ module.exports = (appInfo) => {
 
   /* 托盘 (可选)  */
   config.tray = {
-    title: 'Vuldetect', // 托盘显示标题
+    title: 'Vuldetect-white', // 托盘显示标题
     icon: '/public/images/tray_logo.png' // 托盘图标
   }
 

@@ -98,9 +98,14 @@ export const constantRouterMap = [
       },
       {
         path: '/white',
-        name: 'WhiteIndex',
+        name: 'White',
         component: () => import('@/views/white/Index'),
         children: [
+          {
+            path: '/white/index',
+            name: 'WhiteIndex',
+            component: () => import('@/views/white/authority/Index')
+          },
           {
             path: '/white/authority/index',
             name: 'AuthorityIndex',

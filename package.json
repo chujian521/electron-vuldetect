@@ -1,7 +1,7 @@
 {
-  "name": "vuldetect",
-  "version": "2.1.0",
-  "description": "逻辑漏洞检测工具",
+  "name": "vuldetect-white",
+  "version": "1.1.0",
+  "description": "白盒逻辑漏洞检测工具 For Java Web",
   "main": "main.js",
   "scripts": {
     "start": "electron . ",
@@ -17,9 +17,9 @@
     "restore": "node ./node_modules/ee-core/bin/tools restore"
   },
   "build": {
-    "productName": "vuldetect",
-    "appId": "com.electron.vul",
-    "copyright": "team 4024",
+    "productName": "vuldetect-white",
+    "appId": "com.electron.vul.white",
+    "copyright": "team SJTU",
     "directories": {
       "output": "out"
     },
@@ -84,7 +84,7 @@
   "keywords": [
     "Electron"
   ],
-  "author": "team 4024",
+  "author": "team SJTU",
   "license": "Apache",
   "devDependencies": {
     "debug": "^4.3.3",

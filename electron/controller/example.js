@@ -511,7 +511,7 @@ class ExampleController extends Controller {
     let folderPath = path.join(Utils.getExtraResourcesDir(), p);
     this.app.logger.info('[openFolder] Path: ', folderPath);
     if (!fs.existsSync(folderPath)) {
-      return false;
+      fs.mkdirSync(folderPath);
     }
     shell.showItemInFolder(folderPath);
     return true;
